@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  magento_nginx:
+    build:
+      context: ./etc/nginx
+    container_name: mag_web
+    volumes: 
+      - "./etc/nginx/default.conf:/etc/nginx/nginx.conf"
+      - "./etc/nginx/magento.conf:/etc/nginx/sites-available/magento.conf"
+      - "./web:/var/www/html"
+    ports:
+      - "80:8080"
+      - "443:443"
+    environment:
+      - MAGE_HOST=www.test.com
+    restart: always
+    working_dir: /var/www/html
+    networks:
+      - magento-network
+  magento_php:
+    build: 
+      context: ./etc/php
+      #network: host
+    container_name: mag_php  
+    restart: always
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - "./web:/var/www/html"
+      - "./etc/php/php.ini-development:/usr/local/etc/php/php.ini-development"
+      - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
+    networks:
+      - magento-network  
+  magento_mysql:
+    image: mysql:8
+    container_name: mag_mysql
+    tty: true
+    restart: always
+    environment:
+      - MYSQL_DATABASE=magento
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=magento
+      - MYSQL_PASSWORD=magento
+    volumes:
+      - "./mysql-data:/var/lib/mysql"
+    networks:
+      - magento-network  
+  magento_phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: mag_phpmyadmin
+    tty: true
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mag_mysql
+    restart: always
+    networks:
+      - magento-network
+  magento_elasticsearch:
+    image: elasticsearch:7.9.3
+    container_name: mag_elastic
+    tty: true
+    restart: always
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - "./elastic-data:/usr/share/elasticsearch/data"
+    networks:
+      - magento-network    
+networks:
+  magento-network:
+    driver: bridge      
