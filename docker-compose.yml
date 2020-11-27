@@ -5,6 +5,7 @@ services:
     build:
       context: ./etc/nginx
     container_name: mag_web
+    tty: true
     volumes: 
       - "./etc/nginx/default.conf:/etc/nginx/nginx.conf"
       - "./etc/nginx/magento.conf:/etc/nginx/sites-available/magento.conf"
@@ -29,8 +30,10 @@ services:
     volumes:
       - "./web:/var/www/html"
       - "./etc/php/php.ini-development:/usr/local/etc/php/php.ini-development"
+      - "./etc/php/php.ini-production:/usr/local/etc/php/php.ini-production"
       - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
       - "./etc/php/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+      - "./etc/php/docker-php-ext-memory-limit.ini:/usr/local/etc/php/conf.d/docker-php-ext-memory-limit.ini"
     networks:
       - magento-network  
   magento_mysql:
@@ -47,6 +50,8 @@ services:
       - "./mysql-data:/var/lib/mysql"
     networks:
       - magento-network  
+    cap_add:
+      - SYS_NICE  
   magento_phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: mag_phpmyadmin
