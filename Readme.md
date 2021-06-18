@@ -32,7 +32,7 @@ composer create-project --repository-url=https://repo.magento.com/ magento/proje
 After that we ready for install magento
 Please close the container terminal and start the other container with this command:
 ```sh
-docker-compose start
+docker-compose up -d
 ```
 this command will start the other container  for example, nginx, elasticsearch and mysql
 
