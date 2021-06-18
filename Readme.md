@@ -62,3 +62,5 @@ php bin/magento setup:install \
 --elasticsearch-host=mag_elastic
 --elasticsearch-port=9200
 ```
+
+### Enjoy your environment
