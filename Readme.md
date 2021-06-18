@@ -67,7 +67,7 @@ php bin/magento setup:install \
 Add www.test.com as domain visible only from the local machine.<br />
 Open /etc/hosts and add this line: <br />
 0.0.0.0 www.test.com <br />
-at the of the all line
+at the end of all line
 
 ### Access to database
 Ensure that the container phpmyadmin running<br />
