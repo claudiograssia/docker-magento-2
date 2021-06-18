@@ -44,7 +44,7 @@ and launch this command in order to install magento:
 ```sh
 su magento
 php bin/magento setup:install \
---base-url=http://localhost/magento2ee \
+--base-url=http://www.test.com \
 --db-host=mag_mysql \
 --db-name=magento \
 --db-user=magento \
@@ -57,9 +57,9 @@ php bin/magento setup:install \
 --language=en_US \
 --currency=USD \
 --timezone=Europe/Rome \
---use-rewrites=1
---search-engine=elasticsearch7
---elasticsearch-host=mag_elastic
+--use-rewrites=1 \
+--search-engine=elasticsearch7 \
+--elasticsearch-host=mag_elastic \
 --elasticsearch-port=9200
 ```
 
