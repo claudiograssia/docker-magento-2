@@ -5,42 +5,44 @@ Use this guide in order to speed up build last version for magento 2
 ### Prerequisite
 To have installed docker
 
-###Prepare the env 
+### Prepare the env 
 After clone launch this command inside folder docker-magento-2
-```docker
+```sh
 docker-compose --build
 ```
 this command can be take some minutes.
 
 After that launch
-```docker
+```sh
 docker-compose start magento_php
 ```
 After start, we need to entry inside container with this command
-```docker
+```sh
 docker exec -it mag_php bash
 ```
 inside container we need to download magento
 please launch these commands:
 note: command composer will ask us the magento credential for download magento 2 library.
 ```sh
+su magento
 rm -rf /var/www/html/*
 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition . 
 ```
 
 After that we ready for install magento
 Please close the container terminal and start the other container with this command:
-```docker
+```sh
 docker-compose start
 ```
 this command will start the other container  for example, nginx, elasticsearch and mysql
 
 Please enter again in the php container:
-```docker
+```sh
 docker exec -it mag_php bash
 ```
 and launch this command in order to install magento:
 ```sh
+su magento
 php bin/magento setup:install \
 --base-url=http://localhost/magento2ee \
 --db-host=mag_mysql \
@@ -60,5 +62,3 @@ php bin/magento setup:install \
 --elasticsearch-host=mag_elastic
 --elasticsearch-port=9200
 ```
-
-
