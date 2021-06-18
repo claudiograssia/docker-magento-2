@@ -37,11 +37,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -q \
 #      iconv \
 #      mbstring \
 
-RUN curl https://getcomposer.org/download/1.10.10/composer.phar --output /composer.phar
+RUN curl -sS https://getcomposer.org/download/2.0.0/composer.phar --output /usr/bin/composer
+RUN chmod +x /usr/bin/composer
 
 RUN groupadd -g 1000 magento
-RUN useradd -d /var/www/html -s /bin/bash -u 1000 -g 1000 magento
+RUN mkdir -p /home/magento
+RUN useradd -d /home/magento -s /bin/bash -u 1000 -g 1000 magento
+RUN chown magento:magento /home/magento
 RUN mkdir -p /var/www/html
 RUN chown -R magento:magento /var/www
 
-USER magento
+WORKDIR /var/www/html
+RUN chown magento:magento /usr/bin/composer

@@ -9,7 +9,7 @@ services:
     volumes: 
       - "./etc/nginx/default.conf:/etc/nginx/nginx.conf"
       - "./etc/nginx/magento.conf:/etc/nginx/sites-available/magento.conf"
-      - "./web:/var/www/html"
+      - "./src:/var/www/html"
     ports:
       - "80:8080"
       - "443:443"
@@ -28,7 +28,7 @@ services:
     tty: true
     working_dir: /var/www/html
     volumes:
-      - "./web:/var/www/html"
+      - "./src:/var/www/html"
       - "./etc/php/php.ini-development:/usr/local/etc/php/php.ini-development"
       - "./etc/php/php.ini-production:/usr/local/etc/php/php.ini-production"
       - "./etc/php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
