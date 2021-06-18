@@ -20,21 +20,21 @@ After start, we need to entry inside container with this command
 ```sh
 docker exec -it mag_php bash
 ```
-inside container we need to download magento
-please launch these commands:
-note: command composer will ask us the magento credential for download magento 2 library.
+Inside container we need to download magento<br />
+Please launch these commands:<br />
+Note: command composer will ask us the magento credential for download magento 2 library.
 ```sh
 su magento
 rm -rf /var/www/html/*
 composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition . 
 ```
 
-After that we ready for install magento
+After that we ready for install magento<br />
 Please close the container terminal and start the other container with this command:
 ```sh
 docker-compose up -d
 ```
-this command will start the other container  for example, nginx, elasticsearch and mysql
+This command will start the other container  for example, nginx, elasticsearch and mysql
 
 Please enter again in the php container:
 ```sh
@@ -62,5 +62,20 @@ php bin/magento setup:install \
 --elasticsearch-host=mag_elastic \
 --elasticsearch-port=9200
 ```
+
+### Note
+Add www.test.com as domain visible only from the local machine.<br />
+Open /etc/hosts and add this line: <br />
+0.0.0.0 www.test.com <br />
+at the of the all line
+
+### Access to database
+Ensure that the container phpmyadmin running<br />
+Should be reachable from this path: 0.0.0.0:8080<br />
+The credential are:<br />
+Server: mag_mysql<br />
+Username: magento<br />
+Password: magento
+
 
 ### Enjoy your environment
